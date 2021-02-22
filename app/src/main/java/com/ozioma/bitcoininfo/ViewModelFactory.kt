@@ -13,7 +13,7 @@ import javax.inject.Inject
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory @Inject constructor(
     private val bitcoinInfoService: BitcoinInfoService,
-    val dataHelper: DataHelper
+    private val dataHelper: DataHelper
 ) :
     ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {

@@ -3,7 +3,7 @@ package com.ozioma.data.fakes
 import com.ozioma.data.data.MarketPriceData
 import com.ozioma.data.data.MarketPriceValues
 
-class FakeMarketPriceDataFactory {
+internal class FakeMarketPriceDataFactory {
     companion object {
         private val fakeMarketPriceValues = listOf(MarketPriceValues(1611360000L, 33002.38))
         val fakeMarketPriceData = MarketPriceData(

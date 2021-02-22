@@ -1,5 +1,6 @@
 package com.ozioma.bitcoininfo.chart
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.ozioma.bitcoininfo.UiResult
@@ -16,25 +17,27 @@ class MarketPriceChartViewModel(
     private val dataHelper: DataHelper
 ) : ViewModel() {
     private val disposable = CompositeDisposable()
-    val marketPriceLiveData: MutableLiveData<UiResult<UiMarketPriceData>> = MutableLiveData()
+    private val _marketPriceLiveData: MutableLiveData<UiResult<UiMarketPriceData>> =
+        MutableLiveData()
+    val marketPriceLiveData: LiveData<UiResult<UiMarketPriceData>> = _marketPriceLiveData
 
     init {
         getMarketPriceData()
     }
 
     fun getMarketPriceData() {
-        marketPriceLiveData.value = UiResult.Loading("Fetching market prices from server")
+        _marketPriceLiveData.value = UiResult.Loading()
         disposable += bitcoinInfoService.getCurrentBitcoinMarketPrice().map {
             dataHelper.marketPriceDataToUIMarketPriceData(it)
         }.applyDefaultSchedulers()
             .subscribeBy(
                 onSuccess = {
-                    marketPriceLiveData.value =
-                        UiResult.Success(it, "Market prices fetched successfully")
+                    _marketPriceLiveData.value =
+                        UiResult.Success(it)
                 },
                 onError = {
-                    marketPriceLiveData.value =
-                        UiResult.Error("An error occurred while loading market prices")
+                    _marketPriceLiveData.value =
+                        UiResult.Error()
                 })
     }
 

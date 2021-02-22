@@ -2,6 +2,7 @@ package com.ozioma.bitcoininfo.chart
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import com.github.mikephil.charting.charts.LineChart
 import com.google.android.material.snackbar.Snackbar
@@ -38,6 +39,10 @@ class MarketPriceFragment : BaseFragment<FragmentMarketPriceBinding>() {
                         it.data.getLatestMarketPrice().value.formatTo2DecimalPlaces()
                     binding.chart.data =
                         it.data.toMpChartLineData(resources.getString(R.string.bitcoin_market_price))
+                            .apply {
+                                setValueTextColor(ContextCompat.getColor(requireContext(), R.color.text_color_primary))
+
+                            }
                     binding.chart.invalidate()
                 }
                 is UiResult.Loading -> binding.swipeToRefresh.isRefreshing = true
@@ -46,8 +51,10 @@ class MarketPriceFragment : BaseFragment<FragmentMarketPriceBinding>() {
                     Snackbar.make(
                         binding.chart,
                         getString(R.string.chart_error_notice),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                        Snackbar.LENGTH_INDEFINITE
+                    ).setAction(getString(R.string.ok)) {
+                        //do nothing
+                    }.show()
                 }
             }
         }
@@ -55,6 +62,13 @@ class MarketPriceFragment : BaseFragment<FragmentMarketPriceBinding>() {
 
     private fun formatChart(chart: LineChart) {
         chart.xAxis.valueFormatter = TimeStampToDateValueFormatter()
+        val chartTextColor = ContextCompat.getColor(requireContext(), R.color.text_color_primary)
+
+        chart.xAxis.textColor = chartTextColor
+        chart.axisLeft.textColor = chartTextColor
+        chart.description.textColor = chartTextColor
+        chart.legend.textColor = chartTextColor
+        chart.axisRight.isEnabled = false
         chart.description.text =
             resources.getString(R.string.bitcoin_market_price_seven_days)
     }
