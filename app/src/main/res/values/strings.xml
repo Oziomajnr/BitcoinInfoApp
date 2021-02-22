@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Bitcoin Info App</string>
+    <string name="chart_error_notice">Data is not up to date, failed to fetch data from server</string>
+    <string name="current_data">Current %1s</string>
+    <string name="bitcoin_market_price_seven_days">Bitcoin market price for the past 7 days</string>
+    <string name="bitcoin_market_price">Bitcoin market price</string>
+</resources>

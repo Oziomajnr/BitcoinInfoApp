@@ -1,0 +1,3 @@
+rootProject.name = "Bitcoin Info App"
+include ':app'
+include ':data'
